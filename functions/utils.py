@@ -12,6 +12,8 @@ Notes on imports:
 # below about package execution.
 from database import price
 
+
+
 hotel_rooms = {}
 
 
@@ -62,6 +64,7 @@ def display_rooms(room_number):
 def list_available_rooms():
     """Return a list of (room_number, details) for rooms not booked."""
     return [(rn, det) for rn, det in hotel_rooms.items() if not det['booked']]
+
 
 
 if __name__ == '__main__':

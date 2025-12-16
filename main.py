@@ -1,20 +1,23 @@
+from colorama import init, Fore, Style
+
+
 def main():
     from functions.utils import add_room, book_room, display_rooms, list_available_rooms, hotel_rooms
     # Run until the user explicitly exits.
     try:
         while True:
-            operation = input("Enter operation (add, book, display, list, exit): ").strip().lower()
-            if operation == "exit" or operation == "quit":
+            operation = input(Fore.CYAN + "Enter your choice (1-5): " + Style.RESET_ALL)
+            if operation == "5":
                 print("Exiting.")
                 break
 
-            if operation == "add":
+            if operation == "1":
                 room_type = input("Enter room type (single, double, suite, deluxe): ").strip()
                 room_number = input("Enter room number: ").strip()
                 add_room(room_type, room_number)
                 continue
 
-            if operation == "book":
+            if operation == "2":
                 room_number = input("Enter room number to book: ").strip()
                 if room_number not in hotel_rooms:
                     print("Room number does not exist.")
@@ -25,7 +28,7 @@ def main():
                     book_room(room_number, name, check_in_time, check_out_time)
                 continue
 
-            if operation == "display":
+            if operation == "3":
                 room_number = input("Enter room number to display: ").strip()
                 try:
                     details = display_rooms(room_number)
@@ -34,7 +37,7 @@ def main():
                     print(e)
                 continue
 
-            if operation == "list":
+            if operation == "4":
                 available_rooms = list_available_rooms()
                 if not available_rooms:
                     print("No available rooms.")
@@ -48,5 +51,29 @@ def main():
     except KeyboardInterrupt:
         print("\nInterrupted. Exiting.")
 
+def print_intro():
+    init(autoreset=True)
+    print(Fore.CYAN + r"""
+ _   _       _        _     __  __                                 
+| | | | ___ | |_ __ _| |   |  \/  | __ _ _ __   __ _  ___ _ __    
+| |_| |/ _ \| __/ _` | |   | |\/| |/ _` | '_ \ / _` |/ _ \ '__|   
+|  _  | (_) | || (_| | |   | |  | | (_| | | | | (_| |  __/ |      
+|_| |_|\___/ \__\__,_|_|   |_|  |_|\__,_|_| |_|\__, |\___|_|      
+                                               |___/              
+    """)
+    print(Fore.YELLOW + "Welcome to the Hotel Manager Terminal Interface!\n" + Style.RESET_ALL)
+
+def show_menu():
+    print(Fore.GREEN + "Please select an option:")
+    print(Fore.MAGENTA + "1. Add a Room")
+    print(Fore.BLUE + "2. Book a Room")
+    print(Fore.RED + "3. Display room Details")
+    print(Fore.CYAN + "4. List available Rooms")
+    print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
+
+
+
 if __name__ == "__main__":
+    print_intro()
+    show_menu()
     main()
