@@ -1,1 +1,6 @@
 build/
+.vscode/
+_pycache__/
+.venv/
+functions/__pycache__/
+database/__pycache__/
