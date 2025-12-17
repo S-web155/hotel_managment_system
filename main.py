@@ -1,11 +1,21 @@
 from colorama import init, Fore, Style
 
+def show_menu():
+    print(Fore.GREEN + "Please select an option:")
+    print(Fore.MAGENTA + "1. Add a Room")
+    print(Fore.BLUE + "2. Book a Room")
+    print(Fore.RED + "3. Display room Details")
+    print(Fore.CYAN + "4. List available Rooms")
+    print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
+
 
 def main():
+    print_intro()
     from functions.utils import add_room, book_room, display_rooms, list_available_rooms, hotel_rooms
     # Run until the user explicitly exits.
     try:
         while True:
+            show_menu()
             operation = input(Fore.CYAN + "Enter your choice (1-5): " + Style.RESET_ALL)
             if operation == "5":
                 print("Exiting.")
@@ -63,17 +73,8 @@ def print_intro():
     """)
     print(Fore.YELLOW + "Welcome to the Hotel Manager Terminal Interface!\n" + Style.RESET_ALL)
 
-def show_menu():
-    print(Fore.GREEN + "Please select an option:")
-    print(Fore.MAGENTA + "1. Add a Room")
-    print(Fore.BLUE + "2. Book a Room")
-    print(Fore.RED + "3. Display room Details")
-    print(Fore.CYAN + "4. List available Rooms")
-    print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
 
 
 
 if __name__ == "__main__":
-    print_intro()
-    show_menu()
     main()
