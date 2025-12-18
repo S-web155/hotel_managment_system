@@ -26,7 +26,7 @@ A terminal-based hotel room management application built with Python. This proje
 
 ### Quick Start (Using Pre-built Executable)
 
-1. Download the latest `hotel_manager.exe` from [GitHub Releases](https://github.com/S-web155/hotel-management-system/releases)
+1. Download the latest `hotel_manager.exe` from [GitHub Releases](https://github.com/S-web155/hotel_management_system/releases)
 2. Run the executable:
    ```bash
    hotel_manager.exe
@@ -38,7 +38,7 @@ A terminal-based hotel room management application built with Python. This proje
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/S-web155/hotel-management-system.git
+git clone https://github.com/S-web155/hotel_management_system.git
 cd hotel-management-system
 ```
 
@@ -156,5 +156,5 @@ Created as a school project to learn Python fundamentals including:
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/S-web155/hotel-management-system)
-- [Releases](https://github.com/S-web155/hotel-management-system/releases)
+- [GitHub Repository](https://github.com/S-web155/hotel_management_system)
+- [Releases](https://github.com/S-web155/hotel_management_system/releases)
