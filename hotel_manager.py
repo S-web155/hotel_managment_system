@@ -8,7 +8,6 @@ def show_menu():
     print(Fore.CYAN + "4. List available Rooms")
     print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
 
-
 def main():
     print_intro()
     from functions.utils import add_room, book_room, display_rooms, list_available_rooms, hotel_rooms
@@ -22,8 +21,8 @@ def main():
                 break
 
             if operation == "1":
-                room_type = input("Enter room type (single, double, suite, deluxe): ").strip()
-                room_number = input("Enter room number: ").strip()
+                room_type = input("Enter room Type(single, double, suite, deluxe): ").strip()
+                room_number = input(" Enter room number:").strip()
                 add_room(room_type, room_number)
                 continue
 
