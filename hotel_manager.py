@@ -34,6 +34,7 @@ def main():
                 break
 
             if operation == "1":
+                show_room()
                 choice = input("Enter your choice(1-4): ")
                 room_type = None
                 room_number = input(" Enter room number:").strip()
