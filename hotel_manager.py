@@ -1,3 +1,4 @@
+from types import NoneType
 from colorama import init, Fore, Style
 
 def show_menu():
@@ -7,6 +8,18 @@ def show_menu():
     print(Fore.RED + "3. Display room Details")
     print(Fore.CYAN + "4. List available Rooms")
     print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
+
+
+def show_room():
+    print(Fore.GREEN + "Please select a Room:")
+    print(Fore.MAGENTA + "1. Single")
+    print(Fore.BLUE + "2. Double")
+    print(Fore.RED + "3. Suite")
+    print(Fore.CYAN + "4. Deluxe")
+    print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
+
+
+
 
 def main():
     print_intro()
@@ -21,8 +34,19 @@ def main():
                 break
 
             if operation == "1":
-                room_type = input("Enter room Type(single, double, suite, deluxe): ").strip()
+                choice = input("Enter your choice(1-4): ")
+                room_type = None
                 room_number = input(" Enter room number:").strip()
+
+                if choice == 1:
+                    room_type = 'single'
+                elif choice == 2:
+                    room_type = 'double'
+                elif choice == 3:
+                    room_type = 'suite'
+                elif choice == 4:
+                    room_type = 'deluxe'
+
                 add_room(room_type, room_number)
                 continue
 
