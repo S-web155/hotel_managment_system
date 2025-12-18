@@ -16,7 +16,6 @@ def show_room():
     print(Fore.BLUE + "2. Double")
     print(Fore.RED + "3. Suite")
     print(Fore.CYAN + "4. Deluxe")
-    print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
 
 
 
@@ -36,17 +35,19 @@ def main():
             if operation == "1":
                 show_room()
                 choice = input("Enter your choice(1-4): ")
-                room_type = None
                 room_number = input(" Enter room number:").strip()
 
-                if choice == 1:
+                if choice == "1":
                     room_type = 'single'
-                elif choice == 2:
+                elif choice == "2":
                     room_type = 'double'
-                elif choice == 3:
+                elif choice == "3":
                     room_type = 'suite'
-                elif choice == 4:
+                elif choice == "4":
                     room_type = 'deluxe'
+                else:
+                    print("Invalid choice.")
+                    continue
 
                 add_room(room_type, room_number)
                 continue
