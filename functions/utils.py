@@ -10,7 +10,8 @@ Notes on imports:
 # project is executed from the repository root (so the parent directory of
 # `database/` is on sys.path). If you run modules differently, see notes
 # below about package execution.
-from database import price
+from database.price import room_price as price_data
+from datetime import datetime, timedelta
 
 
 
@@ -24,7 +25,7 @@ def add_room(room_type: str, room_number: str | int, default_price: float | None
     (if provided) or 0.0.
     """
     key = str(room_number)
-    p = price.get(room_type)
+    p = price_data.get(room_type)
     if p is None:
         if default_price is not None:
             p = float(default_price)
@@ -41,16 +42,35 @@ def add_room(room_type: str, room_number: str | int, default_price: float | None
     }
 
 
-def book_room(room_number, name, check_in_time, check_out_time):
-    """Book a room; raises ValueError if the room doesn't exist."""
+def book_room(room_number, name, nights: int = 1):
+    """Book a room and automatically set check-in/check-out times.
+
+    - check-in is the current time (ISO format)
+    - check-out is check-in + `nights` days
+
+    `nights` must be a positive integer; otherwise ValueError is raised.
+    """
     key = str(room_number)
-    if key in hotel_rooms:
-        hotel_rooms[key]['booked'] = True
-        hotel_rooms[key]['guest'] = name
-        hotel_rooms[key]['check_in_time'] = check_in_time
-        hotel_rooms[key]['check_out_time'] = check_out_time
-    else:
+    if key not in hotel_rooms:
         raise ValueError("Room number does not exist.")
+
+    try:
+        nights_int = int(nights)
+    except (TypeError, ValueError):
+        raise ValueError("nights must be an integer number of days")
+
+    if nights_int <= 0:
+        raise ValueError("nights must be >= 1")
+
+    now = datetime.now()
+    # Human-friendly formatted timestamps (local time)
+    check_in_time = now.strftime("%Y-%m-%d %H:%M:%S")
+    check_out_time = (now + timedelta(days=nights_int)).strftime("%Y-%m-%d %H:%M:%S")
+
+    hotel_rooms[key]['booked'] = True
+    hotel_rooms[key]['guest'] = name
+    hotel_rooms[key]['check_in_time'] = check_in_time
+    hotel_rooms[key]['check_out_time'] = check_out_time
 
 
 def display_rooms(room_number):
@@ -66,11 +86,11 @@ def list_available_rooms():
     return [(rn, det) for rn, det in hotel_rooms.items() if not det['booked']]
 
 
-
 if __name__ == '__main__':
     # Example usage guarded so importing this module doesn't execute it.
     add_room('single', 101)
     add_room('double', 102)
-    book_room(101, 'Alice', '2024-07-01', '2024-07-05')
+    # Example: book for 4 nights (check-in now, check-out 4 days later)
+    book_room(101, 'Alice', 4)
     print(display_rooms(101))
     print(list_available_rooms())

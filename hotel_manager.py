@@ -42,6 +42,9 @@ def main():
                 show_room()
                 choice = input(" Enter your choice(1-4): ")
                 room_number = input(" Enter room number:").strip()
+                if room_number in hotel_rooms:
+                    print("Room number already exists.")
+                    continue
 
                 room_type = ROOM_TYPES.get(choice)
                 if room_type is None:
@@ -55,18 +58,39 @@ def main():
                 room_number = input("Enter room number to book: ").strip()
                 if room_number not in hotel_rooms:
                     print("Room number does not exist.")
+                elif hotel_rooms[room_number]['booked']:
+                    print("Room is already booked.")
                 else:
                     name = input("Enter guest name: ").strip()
-                    check_in_time = input("Enter check-in time (YYYY-MM-DD): ").strip()
-                    check_out_time = input("Enter check-out time (YYYY-MM-DD): ").strip()
-                    book_room(room_number, name, check_in_time, check_out_time)
+                    nights_in = input("Enter number of nights (press Enter for 1): ").strip()
+                    nights = 1
+                    if nights_in:
+                        try:
+                            nights = int(nights_in)
+                            if nights <= 0:
+                                print("Number of nights must be at least 1. Using 1.")
+                                nights = 1
+                        except ValueError:
+                            print("Invalid number entered; using 1 night.")
+                            nights = 1
+                    book_room(room_number, name, nights)
                 continue
 
             if operation == "3":
                 room_number = input("Enter room number to display: ").strip()
                 try:
                     details = display_rooms(room_number)
-                    print(f"Room {room_number} details: {details}")
+                    print(f"\nRoom {room_number} details:")
+                    print(f"  Type: {details.get('type')}")
+                    print(f"  Price: {details.get('price')}")
+                    print(f"  Status: {'Booked' if details.get('booked') else 'Available'}")
+                    guest = details.get('guest')
+                    if guest:
+                        print(f"  Guest: {guest}")
+                        print(f"  Check-in: {details.get('check_in_time')}")
+                        print(f"  Check-out: {details.get('check_out_time')}")
+                    else:
+                        print("  Guest: -")
                 except ValueError as e:
                     print(e)
                 continue
@@ -78,7 +102,7 @@ def main():
                 else:
                     print("Available rooms:")
                     for rn, det in available_rooms:
-                        print(f"Room {rn}: {det}")
+                        print(f"Room {rn}: type={det.get('type')}, price={det.get('price')}")
                 continue
 
             print("Invalid operation. Valid: add, book, display, list, exit")
