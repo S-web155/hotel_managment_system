@@ -7,21 +7,35 @@ ROOM_TYPES = {
     "4": "deluxe"
 }
 
+def print_header(title):
+    print(Fore.CYAN + "=" * 60)
+    print(title.center(60))
+    print("=" * 60 + Style.RESET_ALL)
+
+def print_separator():
+    print(Fore.CYAN + "-" * 60 + Style.RESET_ALL)
+
 def show_menu():
-    print(Fore.GREEN + "Please select an option:")
-    print(Fore.MAGENTA + "1. Add a Room")
-    print(Fore.BLUE + "2. Book a Room")
-    print(Fore.RED + "3. Display room Details")
-    print(Fore.CYAN + "4. List available Rooms")
+    print("\n" + Fore.GREEN + "=" * 60)
+    print("MAIN MENU")
+    print("=" * 60 + Style.RESET_ALL)
+    print(Fore.MAGENTA + "1. Add a Room" + Style.RESET_ALL)
+    print(Fore.BLUE + "2. Book a Room" + Style.RESET_ALL)
+    print(Fore.RED + "3. Display Room Details" + Style.RESET_ALL)
+    print(Fore.CYAN + "4. List Available Rooms" + Style.RESET_ALL)
     print(Fore.YELLOW + "5. Exit" + Style.RESET_ALL)
+    print(Fore.GREEN + "-" * 60 + Style.RESET_ALL)
 
 
 def show_room():
-    print(Fore.GREEN + "Please select a Room:")
-    print(Fore.MAGENTA + "1. Single")
-    print(Fore.BLUE + "2. Double")
-    print(Fore.RED + "3. Suite")
-    print(Fore.CYAN + "4. Deluxe")
+    print("\n" + Fore.GREEN + "=" * 60)
+    print("SELECT A ROOM TYPE")
+    print("=" * 60 + Style.RESET_ALL)
+    print(Fore.MAGENTA + "1. Single" + Style.RESET_ALL)
+    print(Fore.BLUE + "2. Double" + Style.RESET_ALL)
+    print(Fore.RED + "3. Suite" + Style.RESET_ALL)
+    print(Fore.CYAN + "4. Deluxe" + Style.RESET_ALL)
+    print(Fore.GREEN + "-" * 60 + Style.RESET_ALL)
 
 
 
@@ -29,85 +43,100 @@ def show_room():
 def main():
     print_intro()
     from functions.utils import add_room, book_room, display_rooms, list_available_rooms, hotel_rooms
-    # Run until the user explicitly exits.
     try:
         while True:
             show_menu()
             operation = input(Fore.CYAN + "Enter your choice (1-5): " + Style.RESET_ALL)
+            
             if operation == "5":
-                print("Exiting.")
+                print("\n" + Fore.YELLOW + "=" * 60)
+                print("Thank you for using Hotel Manager!")
+                print("=" * 60 + Style.RESET_ALL)
                 break
 
             if operation == "1":
                 show_room()
-                choice = input(" Enter your choice(1-4): ")
-                room_number = input(" Enter room number:").strip()
+                choice = input(Fore.CYAN + "Enter your choice (1-4): " + Style.RESET_ALL)
+                room_number = input(Fore.CYAN + "Enter room number: " + Style.RESET_ALL).strip()
+                
                 if room_number in hotel_rooms:
-                    print("Room number already exists.")
+                    print(Fore.RED + "Room number already exists." + Style.RESET_ALL)
                     continue
 
                 room_type = ROOM_TYPES.get(choice)
                 if room_type is None:
-                    print("Invalid choice.")
+                    print(Fore.RED + "Invalid choice." + Style.RESET_ALL)
                     continue
 
                 add_room(room_type, room_number)
+                print(Fore.GREEN + "Room added successfully!" + Style.RESET_ALL)
                 continue
 
             if operation == "2":
-                room_number = input("Enter room number to book: ").strip()
+                print_separator()
+                room_number = input(Fore.CYAN + "Enter room number to book: " + Style.RESET_ALL).strip()
+                
                 if room_number not in hotel_rooms:
-                    print("Room number does not exist.")
+                    print(Fore.RED + "Room number does not exist." + Style.RESET_ALL)
                 elif hotel_rooms[room_number]['booked']:
-                    print("Room is already booked.")
+                    print(Fore.RED + "Room is already booked." + Style.RESET_ALL)
                 else:
-                    name = input("Enter guest name: ").strip()
-                    nights_in = input("Enter number of nights (press Enter for 1): ").strip()
+                    name = input(Fore.CYAN + "Enter guest name: " + Style.RESET_ALL).strip()
+                    nights_in = input(Fore.CYAN + "Enter number of nights (press Enter for 1): " + Style.RESET_ALL).strip()
                     nights = 1
                     if nights_in:
                         try:
                             nights = int(nights_in)
                             if nights <= 0:
-                                print("Number of nights must be at least 1. Using 1.")
+                                print(Fore.YELLOW + "Number of nights must be at least 1. Using 1." + Style.RESET_ALL)
                                 nights = 1
                         except ValueError:
-                            print("Invalid number entered; using 1 night.")
+                            print(Fore.YELLOW + "Invalid number entered; using 1 night." + Style.RESET_ALL)
                             nights = 1
                     book_room(room_number, name, nights)
+                    print(Fore.GREEN + "Room booked successfully!" + Style.RESET_ALL)
                 continue
 
             if operation == "3":
-                room_number = input("Enter room number to display: ").strip()
+                print_separator()
+                room_number = input(Fore.CYAN + "Enter room number to display: " + Style.RESET_ALL).strip()
                 try:
                     details = display_rooms(room_number)
-                    print(f"\nRoom {room_number} details:")
-                    print(f"  Type: {details.get('type')}")
-                    print(f"  Price: {details.get('price')}")
-                    print(f"  Status: {'Booked' if details.get('booked') else 'Available'}")
+                    print("\n" + Fore.GREEN + "=" * 60)
+                    print(f"ROOM {room_number} DETAILS")
+                    print("=" * 60 + Style.RESET_ALL)
+                    print(Fore.MAGENTA + f"Type: {details.get('type')}")
+                    print(Fore.BLUE + f"Price: {details.get('price')}")
+                    print(Fore.CYAN + f"Status: {'Booked' if details.get('booked') else 'Available'}")
                     guest = details.get('guest')
                     if guest:
-                        print(f"  Guest: {guest}")
-                        print(f"  Check-in: {details.get('check_in_time')}")
-                        print(f"  Check-out: {details.get('check_out_time')}")
+                        print(Fore.YELLOW + f"Guest: {guest}")
+                        print(Fore.RED + f"Check-in: {details.get('check_in_time')}")
+                        print(Fore.RED + f"Check-out: {details.get('check_out_time')}")
                     else:
-                        print("  Guest: -")
+                        print(Fore.YELLOW + "Guest: -" + Style.RESET_ALL)
+                    print(Fore.GREEN + "-" * 60 + Style.RESET_ALL)
                 except ValueError as e:
-                    print(e)
+                    print(Fore.RED + str(e) + Style.RESET_ALL)
                 continue
 
             if operation == "4":
+                print("\n" + Fore.GREEN + "=" * 60)
+                print("AVAILABLE ROOMS")
+                print("=" * 60 + Style.RESET_ALL)
                 available_rooms = list_available_rooms()
+                
                 if not available_rooms:
-                    print("No available rooms.")
+                    print(Fore.YELLOW + "No available rooms." + Style.RESET_ALL)
                 else:
-                    print("Available rooms:")
                     for rn, det in available_rooms:
-                        print(f"Room {rn}: type={det.get('type')}, price={det.get('price')}")
+                        print(Fore.CYAN + f"Room {rn}: " + Fore.MAGENTA + f"type={det.get('type')}, " + Fore.BLUE + f"price={det.get('price')}" + Style.RESET_ALL)
+                print(Fore.GREEN + "-" * 60 + Style.RESET_ALL)
                 continue
 
-            print("Invalid operation. Valid: add, book, display, list, exit")
+            print(Fore.RED + "Invalid operation. Valid options: 1-5" + Style.RESET_ALL)
     except KeyboardInterrupt:
-        print("\nInterrupted. Exiting.")
+        print(Fore.RED + "\nInterrupted. Exiting." + Style.RESET_ALL)
 
 def print_intro():
     init(autoreset=True)
@@ -119,7 +148,9 @@ def print_intro():
 |_| |_|\___/ \__\__,_|_|   |_|  |_|\__,_|_| |_|\__, |\___|_|      
                                                |___/              
     """)
-    print(Fore.YELLOW + "Welcome to the Hotel Manager Terminal Interface!\n" + Style.RESET_ALL)
+    print(Fore.YELLOW + "=" * 60)
+    print("WELCOME TO HOTEL MANAGER")
+    print("=" * 60 + Style.RESET_ALL)
 
 
 
